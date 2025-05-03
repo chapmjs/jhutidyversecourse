@@ -86,6 +86,6 @@ deaths <-  read_excel(
     .name_repair = "universal"
   )
 
-
+# application: load excel data from Kunzler data or CHristensen data
 
 

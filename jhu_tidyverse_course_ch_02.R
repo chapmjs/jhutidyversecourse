@@ -174,6 +174,60 @@ anti_join(artists, albums)
 library(RMySQL)
 con <- DBI::dbConnect(RMySQL::MySQL(), 
                       host = "mexico.bbfarm.org",
+                      dbname = "chapmjs_redcat",
                       user = "chapmjs_chapmjs",
                       password = rstudioapi::askForPassword("database_password")
 )
+
+result <- dbGetQuery(con, "SELECT * FROM customer;")
+head(result)
+
+
+
+# 2.11.3.2 Using rvest
+
+## load package
+# install.packages("rvest")
+library(rvest) # this loads the xml2 package too!
+
+## provide URL
+packages <- read_html("http://jhudatascience.org/stable_website/webscrape.html") # the function is from xml2
+
+## Get Packages
+packages %>% 
+  html_nodes("strong") %>%
+  html_text() 
+
+
+
+# 2.12.2.2 API request GET()
+
+## load package
+library(httr)
+library(dplyr)
+
+## Save GitHub username as variable
+username <- 'janeeverydaydoe'
+
+## Save base endpoint as variable
+url_git <- 'https://api.github.com/'
+
+## Construct API request
+api_response <- GET(url = paste0(url_git, 'users/', username, '/repos'))
+
+
+## See variables in response
+names(api_response)
+
+## Check Status Code of request
+api_response$status_code
+
+## Extract content from API response
+repo_content <- content(api_response)
+
+
+## function to get name and URL for each repo
+lapply(repo_content, function(x) {
+  df <- data_frame(repo = x$name,
+                   address = x$html_url)}) %>% 
+  bind_rows()

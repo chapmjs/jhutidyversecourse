@@ -88,4 +88,92 @@ deaths <-  read_excel(
 
 # application: load excel data from Kunzler data or CHristensen data
 
+# 2.3.2 Google Sheets
 
+# install.packages("googlesheets4")
+# load package
+library(googlesheets4)
+gs4_auth()
+# list all sheets - gs4_find()
+
+# read Google Sheet into R with URL
+survey_sheet <- read_sheet("https://docs.google.com/spreadsheets/d/1FN7VVKzJJyifZFY5POdz_LalGTBYaC4SLB-X9vyDnbY/edit?gid=0#gid=0", sheet=2)
+
+## 2.4.2 Reading CSVs into R
+## install.packages("readr")
+library(readr)
+
+## read CSV into R
+df_csv <- read_csv("sample_data - Sheet1.csv")
+
+## look at the object
+head(df_csv)
+
+
+# 2.10 Relational Databases sql
+
+## install and load packages
+## this may take a minute or two
+## install.packages("RSQLite")
+library(RSQLite)
+
+## Specify driver
+sqlite <- dbDriver("SQLite")
+
+## Connect to Database
+db <- dbConnect(sqlite, "company.db")
+
+## List tables in database
+dbListTables(db)
+
+
+## 2.10.4 Working with relational data: dplyr & dbplyr
+## install and load packages
+# install.packages("dbplyr")
+library(dbplyr)
+library(dplyr)
+
+## get two tables
+albums <- tbl(db, "albums")
+artists <- tbl(db, "artists")
+
+## do inner join
+inner <- inner_join(artists, albums, by = "ArtistId")
+
+## look at output as a tibble
+as_tibble(inner)
+
+
+## do left join
+left <- left_join(artists, albums, by = "ArtistId")
+
+## look at output as a tibble
+as_tibble(left)
+
+
+## do right join
+right <- right_join(as_tibble(artists), as_tibble(albums), by = "ArtistId")
+
+## look at output as a tibble
+as_tibble(right)
+
+
+## do right join
+full <- full_join(as_tibble(artists), as_tibble(albums), by = "ArtistId")
+
+## look at output as a tibble
+as_tibble(full)
+
+semi_join(artists, albums)
+anti_join(artists, albums)
+
+# 2.10.7 How to connect to a Database Online
+## install.packages("RMySQL")
+## sudo apt install libmysqlclient-dev
+
+library(RMySQL)
+con <- DBI::dbConnect(RMySQL::MySQL(), 
+                      host = "mexico.bbfarm.org",
+                      user = "chapmjs_chapmjs",
+                      password = rstudioapi::askForPassword("database_password")
+)

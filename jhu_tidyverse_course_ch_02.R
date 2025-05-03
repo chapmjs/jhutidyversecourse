@@ -231,3 +231,24 @@ lapply(repo_content, function(x) {
   df <- data_frame(repo = x$name,
                    address = x$html_url)}) %>% 
   bind_rows()
+
+
+# 2.14.0.1 Reading images in R
+# install package
+# install.packages("magick")
+# sudo apt install libmagick++-dev
+# install.packages("tesseract")
+# sudo apt install libleptonica-dev
+# sudo apt install tesseract-ocr
+library(tesseract)
+
+# load package
+library(magick)
+
+img1 <- image_read("https://ggplot2.tidyverse.org/logo.png")
+img2 <- image_read("https://pbs.twimg.com/media/D5bccHZWkAQuPqS.png")
+#show the image
+print(img1)
+
+#concatenate and print text
+cat(image_ocr(img2))

@@ -234,12 +234,16 @@ lapply(repo_content, function(x) {
 
 
 # 2.14.0.1 Reading images in R
-# install package
+
 # install.packages("magick")
 # sudo apt install libmagick++-dev
+
 # install.packages("tesseract")
 # sudo apt install libleptonica-dev
+# sudo apt install libtesseract-dev
 # sudo apt install tesseract-ocr
+# sudo apt install libpoppler-cpp-dev
+
 library(tesseract)
 
 # load package
